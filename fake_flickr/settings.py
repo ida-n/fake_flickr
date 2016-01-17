@@ -108,9 +108,9 @@ USE_L10N = True
 USE_TZ = True
 
 
-
+sqlite = 'sqlite:////'+ os.path.join(BASE_DIR, 'db.sqlite3')
 # Parse database configuration from $DATABASE_URL
-DATABASES['default'] = dj_database_url.config()
+DATABASES['default'] = dj_database_url.config(default=sqlite)
 
 # Enable Persistent Connections
 DATABASES['default']['CONN_MAX_AGE'] = 500
