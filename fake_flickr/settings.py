@@ -27,6 +27,7 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = (
+    'faker.apps.FakerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
