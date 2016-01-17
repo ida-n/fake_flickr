@@ -1,0 +1,1 @@
+web: gunicorn fake_flickr.wsgi --log-file -
