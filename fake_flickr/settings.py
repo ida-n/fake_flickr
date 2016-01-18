@@ -109,6 +109,10 @@ USE_L10N = True
 USE_TZ = True
 
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+
 sqlite = 'sqlite:////'+ os.path.join(BASE_DIR, 'db.sqlite3')
 # Parse database configuration from $DATABASE_URL
 DATABASES['default'] = dj_database_url.config(default=sqlite)
