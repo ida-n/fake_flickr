@@ -22,9 +22,13 @@ class Image(models.Model):
 			.annotate(avg_rate=Avg('vote__rate'))\
 			.order_by('-avg_rate')[:limit]
 
+	@property
+	def image_avg_rate(self):
+		return self.vote_set.aggregate(Avg('rate'))['rate__avg']
+
 
 class Comment(models.Model):
-	comment_text = models.CharField(max_length=250)
+	comment_text = models.TextField()
 	user = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
 		on_delete=models.CASCADE,

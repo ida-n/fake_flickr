@@ -35,7 +35,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
+            <li class="active"><a href="/faker">Home</a></li>
             <li><a href="{% url 'faker:images' %}">Images</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
@@ -44,24 +44,39 @@
     </nav>
 
     <div class="container">
+      <div class="row">
+        <img src="{{ image.imgfile.url }}" alt="{{ image.imgfile.name }}" class="img-thumbnail"/>
+      </div>
+      {% if image.description %}
+      <div class="row">
+        <h1> Description </h1>
+        <div class="col-md-12">
+          <p>{{ image.description }}</p>
+        <div>
+      </div>
+      {% endif %}
 
-      <div class="starter-template">
-        <div class="row">
-        	<h1>Last Day Top Images</h1>
-			{% for image in last_day_img_list %}
-				<div class="col-md-5">
-			    	<img src="{{ image.imgfile.url }}" alt="{{ image.imgfile.name }}" class="img-thumbnail"/>
-			    </div>
-			{% endfor %}
-		</div>
-		<div>
-			<h1>Last Week Top Images</h1>
-			{% for image in last_week_img_list %}
-				<div class="col-md-5">
-				    <img src="{{ image.imgfile.url }}" alt="{{ image.imgfile.name }}" class="img-thumbnail"/>
-				</div>
-			{% endfor %}
-		</div>
+      <div class="row">
+        <h1> LOL Rate </h1>
+        <form action="{% url 'faker:vote' image.id %}" method="post">
+          {% csrf_token %}
+          Meh...
+          {% for r in rate_range %}
+            <input type="radio" name="rate" id="{{ r }}" value="{{ r }}">
+          {% endfor %}
+          ROFL
+          <input type="submit" value="Vote" /> (Current Ratting: {{ image.image_avg_rate}})
+        </form>
+      </div>
+
+      
+      <div class="row">
+        <h1> Comments </h1>
+        {% for comment in  image.comment_set.all %}
+        <div class="col-md-12">
+          <p>{{ comment.comment_text }}</p>
+        </div>
+        {% endfor %}
       </div>
 
     </div><!-- /.container -->

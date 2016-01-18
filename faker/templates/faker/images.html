@@ -35,7 +35,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
+            <li class="active"><a href="/faker">Home</a></li>
             <li><a href="{% url 'faker:images' %}">Images</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
@@ -44,24 +44,15 @@
     </nav>
 
     <div class="container">
-
-      <div class="starter-template">
-        <div class="row">
-        	<h1>Last Day Top Images</h1>
-			{% for image in last_day_img_list %}
-				<div class="col-md-5">
-			    	<img src="{{ image.imgfile.url }}" alt="{{ image.imgfile.name }}" class="img-thumbnail"/>
-			    </div>
-			{% endfor %}
-		</div>
-		<div>
-			<h1>Last Week Top Images</h1>
-			{% for image in last_week_img_list %}
-				<div class="col-md-5">
-				    <img src="{{ image.imgfile.url }}" alt="{{ image.imgfile.name }}" class="img-thumbnail"/>
-				</div>
-			{% endfor %}
-		</div>
+      <div class="row">
+        <h1>All Images</h1>
+        {% for image in img_list %}
+          <div class="col-md-5">
+            <a href="{% url 'faker:image' image.id%}">
+              <img src="{{ image.imgfile.url }}" alt="{{ image.imgfile.name }}" class="img-thumbnail"/>
+            </a>
+          </div>
+        {% endfor %}
       </div>
 
     </div><!-- /.container -->
