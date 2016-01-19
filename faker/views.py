@@ -28,7 +28,7 @@ def image(request, image_id):
 	img = get_object_or_404(Image, pk=image_id)
 	if request.method == "POST":
 		form = CommentForm(request.POST)
-		if form.is_valid():
+		if form.is_valid() and request.user.is_authenticated():
 			comment = form.save(commit=False)
 			comment.user = request.user
 			comment.image = img
@@ -38,7 +38,7 @@ def image(request, image_id):
 	else:
 		form = CommentForm()
 	
-	user_has_voted = len(img.vote_set.filter(user=request.user)) > 0
+	user_has_voted = request.user.is_authenticated() and len(img.vote_set.filter(user=request.user)) > 0
 	context = {
 		'image': img,
 		'rate_range': range(1,6),
@@ -63,7 +63,6 @@ def vote(request, image_id):
 def my_images(request):
 	if request.method == "POST":
 		form = ImageForm(request.POST, request.FILES)
-		print(request.FILES)
 		if form.is_valid():
 			img = form.save(commit=False)
 			img.user = request.user
@@ -72,17 +71,9 @@ def my_images(request):
 			# return HttpResponseRedirect(reverse('faker:my_images'))
 	else:
 		form = ImageForm()
+		form.fields['imgfile'].widget.attrs['accept'] = 'image/*'
 	context = {
 		'img_list': Image.objects.filter(user=request.user),
 		'form': form
 	}
 	return render(request, 'faker/my_images.html', context)
-
-# @login_required
-# def upload(request):
-# 	form = ImageForm(request.POST, request.FILES)
-# 	if form.is_valid():
-# 		img = form.save(commit=False)
-# 		img.user = request.user
-# 		img.save()
-# 	return HttpResponseRedirect(reverse('faker:my_images'))
