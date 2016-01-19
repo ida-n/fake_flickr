@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelForm
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Avg
@@ -61,4 +62,9 @@ class Vote(models.Model):
 
 	class Meta:
 		unique_together = ('user', 'image')
+
+class ImageForm(ModelForm):
+    class Meta:
+        model = Image
+        fields = ['description', 'imgfile']
 

@@ -34,6 +34,8 @@ INSTALLED_APPS = (
     'faker.apps.FakerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
+    #'django.contrib.sites',
+    'registration',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -56,7 +58,7 @@ ROOT_URLCONF = 'fake_flickr.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,3 +123,9 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_EMAIL_SUBJECT_PREFIX = '[Faker]'
+SEND_ACTIVATION_EMAIL = False
+REGISTRATION_AUTO_LOGIN = False
+
