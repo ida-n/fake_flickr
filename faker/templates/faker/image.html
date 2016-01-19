@@ -8,32 +8,46 @@
           <h1> Description </h1>
           <div class="col-md-12">
             <p>{{ image.description }}</p>
+            {{ request.build_absolute_uri }}
           <div>
         </div>
       {% endif %}
 
       {% if request.user.is_authenticated %}
         <div class="row">
-          <h1> LOL Rate </h1>
-          <form action="{% url 'faker:vote' image.id %}" method="post">
-            {% csrf_token %}
-            Meh...
-            {% for r in rate_range %}
-              <input type="radio" name="rate" id="{{ r }}" value="{{ r }}">
-            {% endfor %}
-            ROFL
-            <input type="submit" value="Vote" /> (Current Ratting: {{ image.image_avg_rate}})
-          </form>
+          <h1> LOL Rate </h1> 
+          Current Ratting: <b>{{ image.image_avg_rate }}</b>
+          {% if not has_voted %}
+            <form action="{% url 'faker:vote' image.id %}" method="post">
+              {% csrf_token %}
+              Meh...
+              {% for r in rate_range %}
+                <input type="radio" name="rate" id="{{ r }}" value="{{ r }}">
+              {% endfor %}
+              ROFL
+              <input type="submit" value="Vote" />
+            </form>
+          {% endif %}
         </div>
       {% endif %}
 
       
       <div class="row">
         <h1> Comments </h1>
+
         {% for comment in  image.comment_set.all %}
-        <div class="col-md-12">
+        <div class="col-md-12 comment">
           <p>{{ comment.comment_text }}</p>
         </div>
         {% endfor %}
+      </div>
+      <div class="row">
+        {% if request.user.is_authenticated %}
+          <form action="{% url 'faker:image' image.id %}" method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <p><input type="submit" value="post" /></p>
+          </form>
+        {% endif %}
       </div>
 {% endblock %}

@@ -1,8 +1,9 @@
 from django.db import models
-from django.forms import ModelForm
+from django.forms import ModelForm, Textarea
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Avg
+from django.utils.translation import ugettext_lazy as _
 
 class Image(models.Model):
 	description = models.CharField(max_length=250)
@@ -49,8 +50,8 @@ class Vote(models.Model):
 		validators=[
 			MaxValueValidator(5),
 			MinValueValidator(1)
-        ]
-    )
+		]
+	)
 	user = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
 		on_delete=models.CASCADE,
@@ -63,8 +64,27 @@ class Vote(models.Model):
 	class Meta:
 		unique_together = ('user', 'image')
 
+
+
 class ImageForm(ModelForm):
-    class Meta:
-        model = Image
-        fields = ['description', 'imgfile']
+	class Meta:
+		model = Image
+		fields = ['imgfile', 'description']
+		labels = {
+			'imgfile': _('Image File'),
+		}
+		widgets = {
+			'description': Textarea(attrs={'cols': 40, 'rows': 2}),
+		}
+
+class CommentForm(ModelForm):
+	class Meta:
+		model = Comment
+		fields = ['comment_text']
+		widgets = {
+			'comment_text': Textarea(attrs={'cols': 80, 'rows': 2}),
+		}
+		labels = {
+			'comment_text': '',
+		}
 

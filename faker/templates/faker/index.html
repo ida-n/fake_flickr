@@ -1,21 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
-      <div class="starter-template">
-        <div class="row">
-        	<h1>Last Day Top 10 Images</h1>
-			{% for image in last_day_img_list %}
-				<div class="col-md-5">
+<div class="starter-template">
+	<div class="row">
+		<h1>Last Day Top 10 Images</h1>
+		{% for image in last_day_img_list %}
+			<div class="col-md-3">
+				<a href="{% url 'faker:image' image.id%}">
+		    		<img src="{{ image.imgfile.url }}" alt="{{ image.imgfile.name }}" class="img-thumbnail"/>
+		    	</a>
+		    </div>
+		{% endfor %}
+	</div>
+	<div>
+		<h1>Last Week Top 10 Images</h1>
+		{% for image in last_week_img_list %}
+			<div class="col-md-3">
+				<a href="{% url 'faker:image' image.id%}">
 			    	<img src="{{ image.imgfile.url }}" alt="{{ image.imgfile.name }}" class="img-thumbnail"/>
-			    </div>
-			{% endfor %}
-		</div>
-		<div>
-			<h1>Last Week Top 10 Images</h1>
-			{% for image in last_week_img_list %}
-				<div class="col-md-5">
-				    <img src="{{ image.imgfile.url }}" alt="{{ image.imgfile.name }}" class="img-thumbnail"/>
-				</div>
-			{% endfor %}
-		</div>
-      </div>
+			    </a>
+			</div>
+		{% endfor %}
+	</div>
+</div>
 {% endblock %}

@@ -3,7 +3,7 @@
       <div class="row">
         <h1>All Images</h1>
         {% for image in img_list %}
-          <div class="col-md-5">
+          <div class="col-md-3">
             <a href="{% url 'faker:image' image.id%}">
               <img src="{{ image.imgfile.url }}" alt="{{ image.imgfile.name }}" class="img-thumbnail"/>
             </a>

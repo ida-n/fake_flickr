@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
   <div class="row">
+    <h1>Upload Image</h1>
     <form action="{% url 'faker:my_images' %}" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p  }}
-      <input type="submit" value="upload" />
-  </form>
+      <p><input type="submit" value="upload" /></p>
+    </form>
   </div>
   <div class="row">
-    <h1>All Images</h1>
+    <h1>Your Images</h1>
     {% for image in img_list %}
-      <div class="col-md-5">
+      <div class="col-md-3">
         <a href="{% url 'faker:image' image.id%}">
           <img src="{{ image.imgfile.url }}" alt="{{ image.imgfile.name }}" class="img-thumbnail"/>
         </a>

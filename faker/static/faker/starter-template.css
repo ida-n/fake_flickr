@@ -5,3 +5,10 @@ body {
   padding: 40px 15px;
   text-align: center;
 }
+
+
+.comment {
+  background-color:lightgray;
+  padding:10px;
+  margin:5px 0px;
+}

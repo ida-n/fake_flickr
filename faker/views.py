@@ -1,10 +1,11 @@
 import datetime
 from django.shortcuts import render, get_object_or_404
-from .models import Image, ImageForm
+from .models import Image, ImageForm, CommentForm, Vote
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 
 def index(request):
 	last_day = timezone.now() - datetime.timedelta(days=1)
@@ -25,29 +26,37 @@ def images(request):
 
 def image(request, image_id):
 	img = get_object_or_404(Image, pk=image_id)
+	if request.method == "POST":
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			comment = form.save(commit=False)
+			comment.user = request.user
+			comment.image = img
+			comment.save()
+			return redirect('faker:image', image_id=image_id)
+			# return HttpResponseRedirect(reverse('faker:my_images'))
+	else:
+		form = CommentForm()
+	
+	user_has_voted = len(img.vote_set.filter(user=request.user)) > 0
 	context = {
 		'image': img,
-		'rate_range': range(1,6)
+		'rate_range': range(1,6),
+		'has_voted': user_has_voted,
+		'comment_form': CommentForm
 	}
 	return render(request, 'faker/image.html', context)
 
 @login_required
 def vote(request, image_id):
 	img = get_object_or_404(Image, pk=image_id)
-	rate = request.POST['rate']
-	print(rate)
-	print(type(rate))
-	# try:
-	# 	selected_choice = question.choice_set.get(pk=request.POST['choice'])
-	# except (KeyError, Choice.DoesNotExist):
-	# 	return render(request, 'polls/details.html', {
-	# 		'question':question,
-	# 		'error_message':'You didn\'t select a choice.'
-	# 		})
-	# else:
-	# 	selected_choice.votes += 1
-	# 	selected_choice.save()
-	## return under else
+	rate = int(request.POST['rate'])
+	user_has_voted = len(img.vote_set.filter(user=request.user)) > 0
+	if user_has_voted or rate not in range(1,6):
+		return redirect('faker:image', image_id=image_id)
+	
+	v = Vote(rate=rate, user=request.user, image=img)
+	v.save()
 	return HttpResponseRedirect(reverse('faker:image', args=(image_id,)))
 
 @login_required
@@ -59,7 +68,8 @@ def my_images(request):
 			img = form.save(commit=False)
 			img.user = request.user
 			img.save()
-			return HttpResponseRedirect(reverse('faker:my_images'))
+			return redirect('faker:my_images')
+			# return HttpResponseRedirect(reverse('faker:my_images'))
 	else:
 		form = ImageForm()
 	context = {
@@ -68,11 +78,11 @@ def my_images(request):
 	}
 	return render(request, 'faker/my_images.html', context)
 
-@login_required
-def upload(request):
-	form = ImageForm(request.POST, request.FILES)
-	if form.is_valid():
-		img = form.save(commit=False)
-		img.user = request.user
-		img.save()
-	return HttpResponseRedirect(reverse('faker:my_images'))
+# @login_required
+# def upload(request):
+# 	form = ImageForm(request.POST, request.FILES)
+# 	if form.is_valid():
+# 		img = form.save(commit=False)
+# 		img.user = request.user
+# 		img.save()
+# 	return HttpResponseRedirect(reverse('faker:my_images'))
