@@ -16,16 +16,26 @@ This app was built using:
 ### How to set up ###
 This application is developed with python 3.5.1 and Django 1.9.1     
 https://www.python.org/downloads/release/python-351/   
-https://docs.djangoproject.com/en/1.9/releases/1.9/    
-It is recommended that you start by creating a new ``virtualenv``. Following links can help you set up:    
+https://docs.djangoproject.com/en/1.9/releases/1.9/
+It is recommended that you start by creating a new ``virtualenv``. 
+```
+pip install virtualenv # install virtualenv
+virtualenv venv # Create virtualenv
+source venv/bin/activate # Active virtualenv on linux
+source venv\scripts\activate # Active virtualenv on windows
+```
+Following links can help you set up:    
 http://docs.python-guide.org/en/latest/dev/virtualenvs/    
 https://docs.python.org/3/library/venv.html
 
+Clone this repository
+```
+clone https://github.com/inakhostin/fake_flickr.git
+```
+
 Install the requirements by running:
 ```
-#!python
-
-pip install -r requiremnts.txt
+pip install -r requirements.txt 
 ```
 Create you database tables by running:
 ```
