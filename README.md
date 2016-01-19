@@ -15,7 +15,7 @@ This app was built using:
 * django-registration-redux
 
 
-### How do I get set up? ###
+### How to set up ###
 This application is developed with python 3.5.1 and Django 1.9.1     
 https://www.python.org/downloads/release/python-351/   
 https://docs.djangoproject.com/en/1.9/releases/1.9/    
