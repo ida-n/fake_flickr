@@ -30,7 +30,7 @@ https://docs.python.org/3/library/venv.html
 
 Clone this repository
 ```
-clone https://github.com/inakhostin/fake_flickr.git
+git clone https://github.com/inakhostin/fake_flickr.git
 ```
 
 Install the requirements by running:
