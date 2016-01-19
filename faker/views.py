@@ -8,6 +8,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
 def index(request):
+	"""
+	View thumbnail list of the top 10 pictures in the 
+	last day & week on the home page
+	"""
 	last_day = timezone.now() - datetime.timedelta(days=1)
 	last_week = timezone.now() - datetime.timedelta(days=7)
 	last_day_img_list = Image.get_top_images(last_day, 10)
@@ -19,12 +23,17 @@ def index(request):
 	return render(request, 'faker/index.html', context)
 
 def images(request):
+	"""View thumbnail list of all the pictures"""
 	context = {
 		'img_list': Image.objects.all()
 	}
 	return render(request, 'faker/images.html', context)
 
 def image(request, image_id):
+	"""
+	View an image, it's rate and comments for all users
+	Add new comments or Vote if you are a Logged in users
+	"""
 	img = get_object_or_404(Image, pk=image_id)
 	if request.method == "POST":
 		form = CommentForm(request.POST)
@@ -61,6 +70,10 @@ def vote(request, image_id):
 
 @login_required
 def my_images(request):
+	"""
+	View for Logged in users to view all their images 
+	and upload new ones
+	"""
 	if request.method == "POST":
 		form = ImageForm(request.POST, request.FILES)
 		if form.is_valid():
