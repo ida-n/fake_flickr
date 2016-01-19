@@ -4,8 +4,6 @@
 
 Django exercise app for sharing funny Pics
 
-Dependencies
-=============
 ### Dependencies ###
 
 This app was built using:
